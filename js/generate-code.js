@@ -32,9 +32,9 @@ const letterData = {
             "U": 0b1000110001100011000111111, "V": 0b1000110001010100101000100,
             "W": 0b1000110001101011101110001, "X": 0b1000101010001000101010001,
             "Y": 0b1000101010001000010000100, "Z": 0b1111100010001000100011111,
-            "0": 0b0111010001101011000101110, "1": 0b0110000100001000010000100,
+            "0": 0b0111010001100011000101110, "1": 0b0110000100001000010000100,
             "2": 0b0110010010001000100011110, "3": 0b1111000010011100001011110,
-            "4": 0b1000110001111110000100001, "5": 0b0111010000111100001011110,
+            "4": 0b1000110001111110000100001, "5": 0b1111010000111000001011100,
             "6": 0b1111010000111101001011110, "7": 0b1111000010001000100010000,
             "8": 0b1111010010011001001011110, "9": 0b1111010010111100001011110,
             " ": 0b0000000000000000000000000, "/": 0b0001100110011001100010000,
@@ -54,8 +54,10 @@ const letterData = {
             "s": 0b0000000110010000011001100, "t": 0b0010001110001000010000110,
             "u": 0b0000000000010100101000110, "v": 0b0000000000010100101000100,
             "w": 0b0000000000100011010101011, "x": 0b0000000000010100010001010,
-            "y": 0b0101001010001100001000100, "z": 0b0000001110000100010001110
+            "y": 0b0101001010001100001000100, "z": 0b0000001110000100010001110,
         },
+        "eye": 0b1111110001101011000111111,
+        "empty": 0b0000000000000000000000000,
         size: 5
     }
 }
@@ -91,7 +93,9 @@ function generateHRPixelData(data, {
             throw new Error("Maximum Code Size exeeded.")
         }
     }
-    
+
+    codeSize++
+
     let sizePx = (fontData.size + 1) * codeSize - 1
     let pixelData = Array.from({length: sizePx + 2},
         () => Array.from({length: sizePx + 2}, () => false))
@@ -102,13 +106,12 @@ function generateHRPixelData(data, {
         symbols.push(randomCharData(fontData.size))
     }
 
-    for (let i = 0; i < symbols.length; i++) {
-        let px = (i % codeSize) * (fontData.size + 1) + 1
-        let py = Math.floor(i / codeSize) * (fontData.size + 1) + 1
-
+    const drawLetter = (letter, posX, posY) => {
+        const px = posX * (fontData.size + 1) + 1
+        const py = posY * (fontData.size + 1) + 1
         for (let j = 0; j < fontData.size ** 2; j++) {
             let bitMask = (1 << (fontData.size ** 2 - j - 1))
-            let bitActive = (symbols[i] & bitMask) != 0
+            let bitActive = (letter & bitMask) != 0
             if (bitActive) {
                 let x = j % fontData.size
                 let y = Math.floor(j / fontData.size)
@@ -116,6 +119,16 @@ function generateHRPixelData(data, {
             }
         }
     }
+
+    for (let i = 0; i < symbols.length; i++) {
+        let px = (i % (codeSize - 1)) + 1
+        let py = Math.floor(i / (codeSize - 1)) + 1
+        drawLetter(symbols[i], px, py)
+    }
+
+    drawLetter(fontData.eye, 0, 0)
+    drawLetter(fontData.eye, codeSize - 1, 0)
+    drawLetter(fontData.eye, 0, codeSize - 1)
 
     return pixelData
 }
