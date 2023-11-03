@@ -74,7 +74,8 @@ const maxCodeSize = 100
 
 function generateHRPixelData(data, {
     fontmode="5x5",
-    randomFill=false
+    randomFill=false,
+    fillSidesRandom=false,
 }={}) {
     const fontData = letterData[fontmode]
     if (fontData === undefined) {
@@ -84,6 +85,7 @@ function generateHRPixelData(data, {
     const symbols = Array.from(data).map(letter => fontData.letters[letter])
 
     if (symbols.some(s => s === undefined)) {
+        symbols.some((s, i) => s === undefined ? console.log(i, data[i]) : undefined)
         throw new Error("Message contains unsupported characters!")
     }
 
@@ -94,17 +96,17 @@ function generateHRPixelData(data, {
         }
     }
 
-    codeSize++
-
-    let sizePx = (fontData.size + 1) * codeSize - 1
-    let pixelData = Array.from({length: sizePx + 2},
-        () => Array.from({length: sizePx + 2}, () => false))
-
     while (randomFill && symbols.length < (codeSize * codeSize)) {
         // let randomIndex = Math.floor(Math.random() * pixelData.length)
         // symbols.splice(randomIndex, 0, randomCharData(fontData.size))
         symbols.push(randomCharData(fontData.size))
     }
+
+    codeSize++
+
+    let sizePx = (fontData.size + 1) * codeSize - 1
+    let pixelData = Array.from({length: sizePx + 2},
+        () => Array.from({length: sizePx + 2}, () => false))
 
     const drawLetter = (letter, posX, posY) => {
         const px = posX * (fontData.size + 1) + 1
@@ -129,6 +131,13 @@ function generateHRPixelData(data, {
     drawLetter(fontData.eye, 0, 0)
     drawLetter(fontData.eye, codeSize - 1, 0)
     drawLetter(fontData.eye, 0, codeSize - 1)
+
+    if (fillSidesRandom) {
+        for (let i = 1; i < codeSize - 1; i++) {
+            drawLetter(randomCharData(fontData.size), i, 0)
+            drawLetter(randomCharData(fontData.size), 0, i)
+        }
+    }
 
     return pixelData
 }

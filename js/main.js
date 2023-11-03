@@ -1,6 +1,7 @@
 const OUTPUT_CONTAINER = document.getElementById("output-container")
 const OUTPUT_CANVAS = document.getElementById("output-canvas")
 const OUTPUT_CONTEXT = OUTPUT_CANVAS.getContext("2d")
+const URL_INPUT = document.getElementById("url-input")
 
 function drawPixelDataToOutput(data) {
     OUTPUT_CANVAS.style.display = "block"
@@ -27,7 +28,15 @@ function drawPixelDataToOutput(data) {
 }
 
 function generateCode() {
-    const inputString = document.getElementById("url-input").value
-    const pixelData = generateHRPixelData(inputString, {fontmode: "5x5", randomFill: false})
+    const inputString = URL_INPUT.value
+    const pixelData = generateHRPixelData(inputString, {
+        fontmode: "5x5",
+        randomFill: true,
+        fillSidesRandom: true,
+    })
     drawPixelDataToOutput(pixelData)
 }
+
+URL_INPUT.oninput = generateCode
+
+generateCode()
