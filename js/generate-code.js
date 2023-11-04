@@ -66,6 +66,7 @@ const letterData = {
             "u": 0b0000000000010100101000110, "v": 0b0000000000010100101000100,
             "w": 0b0000000000100011010101011, "x": 0b0000000000010100010001010,
             "y": 0b0101001010001100001000100, "z": 0b0000001110000100010001110,
+            "terminator": 0b0000001110010100111000000,
         },
         "eye": 0b1111110001101011000111111,
         "empty": 0b0000000000000000000000000,
@@ -107,10 +108,16 @@ function generateHRPixelData(data, {
         }
     }
 
+    let isFirstRandom = true
     while (randomFill && symbols.length < (codeSize * codeSize)) {
         // let randomIndex = Math.floor(Math.random() * pixelData.length)
         // symbols.splice(randomIndex, 0, randomCharData(fontData.size))
-        symbols.push(randomCharData(fontData.size))
+        if (isFirstRandom) {
+            symbols.push(fontData.letters.terminator)
+        } else {
+            symbols.push(randomCharData(fontData.size))
+        }
+        isFirstRandom = false
     }
 
     codeSize++
@@ -139,16 +146,16 @@ function generateHRPixelData(data, {
         drawLetter(symbols[i], px, py)
     }
 
-    drawLetter(fontData.eye, 0, 0)
-    drawLetter(fontData.eye, codeSize - 1, 0)
-    drawLetter(fontData.eye, codeSize - 1, codeSize - 1)
-
     if (fillSidesRandom) {
-        for (let i = 1; i < codeSize - 1; i++) {
+        for (let i = 1; i < codeSize; i++) {
             drawLetter(randomCharData(fontData.size), i, 0)
             drawLetter(randomCharData(fontData.size), codeSize - 1, i)
         }
     }
+
+    drawLetter(fontData.eye, 0, 0)
+    drawLetter(fontData.eye, codeSize - 1, 0)
+    drawLetter(fontData.eye, codeSize - 1, 1)
 
     return pixelData
 }
