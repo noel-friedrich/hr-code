@@ -123,19 +123,19 @@ function generateHRPixelData(data, {
     }
 
     for (let i = 0; i < symbols.length; i++) {
-        let px = (i % (codeSize - 1)) + 1
+        let px = (i % (codeSize - 1))
         let py = Math.floor(i / (codeSize - 1)) + 1
         drawLetter(symbols[i], px, py)
     }
 
     drawLetter(fontData.eye, 0, 0)
     drawLetter(fontData.eye, codeSize - 1, 0)
-    drawLetter(fontData.eye, 0, codeSize - 1)
+    drawLetter(fontData.eye, codeSize - 1, codeSize - 1)
 
     if (fillSidesRandom) {
         for (let i = 1; i < codeSize - 1; i++) {
             drawLetter(randomCharData(fontData.size), i, 0)
-            drawLetter(randomCharData(fontData.size), 0, i)
+            drawLetter(randomCharData(fontData.size), codeSize - 1, i)
         }
     }
 
