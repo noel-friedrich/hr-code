@@ -6,16 +6,21 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>HR Code</title>
-        <link rel="icon" type="image/x-icon" href="logo.jpg">
+        <link rel="icon" type="image/x-icon" href="assets/images/logo.svg">
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lora">
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand">
     </head>
 
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+    </script>
+
     <body>
 
         <header>
-            <img src="logo.jpg" alt="Logo" class="logo">
+            <img src="assets/images/logo.svg" alt="Logo" class="logo">
             <h1><a href="#">HR Codes</a></h1>
         </header>
 
@@ -45,8 +50,59 @@
                 <canvas id="output-canvas"></canvas>
             </div>
 
+            <!-- Buttons for downloading the QR code -->
+            <button id="downloadpng">Download as PNG</button>
+            <button id="downloadjpeg">Download as JPEG</button>
+            <button id="downloadpdf">Download as PDF</button>
+
             <script src="js/generate-code.js"></script>
             <script src="js/main.js"></script>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var pngbutton = document.getElementById('downloadpng');
+                    var jpegbutton = document.getElementById('downloadjpeg');
+                    var pdfbutton = document.getElementById('downloadpdf');
+
+                    function downloadImage(format) {
+                        console.log("ran download image");
+                        var canvas = document.getElementById('output-canvas');
+                        if (canvas) {
+                            var dataURL = canvas.toDataURL('image/' + format);
+                            var downloadLink = document.createElement('a');
+                            downloadLink.href = dataURL;
+                            downloadLink.download = 'QRCode.' + format;
+                            document.body.appendChild(downloadLink);
+                            downloadLink.click();
+                            document.body.removeChild(downloadLink);
+                        } else {
+                            console.error('The canvas element was not found!');
+                        }
+                    }
+
+                    function downloadPDF() {
+                        console.log("ran download PDF");
+                        var canvas = document.getElementById('output-canvas');
+                        if (canvas) {
+                            var dataURL = canvas.toDataURL('image/jpeg', 1.0);
+                            var pdf = new jsPDF();
+                            var canvasWidth = canvas.width;
+                            var canvasHeight = canvas.height;
+                            var pdfWidth = pdf.internal.pageSize.getWidth();
+                            var pdfHeight = (canvasHeight * pdfWidth) / canvasWidth;
+                            pdf.addImage(dataURL, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                            pdf.save('QRCode.pdf');
+                        } else {
+                            console.error('The canvas element was not found!');
+                        }
+                    }
+
+                    // Bind the event listeners to the buttons
+                    pngbutton.addEventListener('click', function() { downloadImage('png'); });
+                    jpegbutton.addEventListener('click', function() { downloadImage('jpeg'); });
+                    pdfbutton.addEventListener('click', downloadPDF);
+                });
+            </script>        
 
         </main>
 
