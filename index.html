@@ -50,7 +50,8 @@
                 <canvas id="output-canvas"></canvas>
             </div>
 
-            <!-- Buttons for downloading the QR code -->
+            <hr>
+            <!-- Buttons for downloading the HR code -->
             <button id="downloadpng">Download as PNG</button>
             <button id="downloadjpeg">Download as JPEG</button>
             <button id="downloadpdf">Download as PDF</button>
@@ -71,7 +72,7 @@
                             var dataURL = canvas.toDataURL('image/' + format);
                             var downloadLink = document.createElement('a');
                             downloadLink.href = dataURL;
-                            downloadLink.download = 'QRCode.' + format;
+                            downloadLink.download = 'HRCode.' + format;
                             document.body.appendChild(downloadLink);
                             downloadLink.click();
                             document.body.removeChild(downloadLink);
@@ -91,7 +92,7 @@
                             var pdfWidth = pdf.internal.pageSize.getWidth();
                             var pdfHeight = (canvasHeight * pdfWidth) / canvasWidth;
                             pdf.addImage(dataURL, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-                            pdf.save('QRCode.pdf');
+                            pdf.save('HRCode.pdf');
                         } else {
                             console.error('The canvas element was not found!');
                         }
