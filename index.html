@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>HR Code</title>
-        <link rel="icon" type="image/x-icon" href="logo.jpg">
+        <link rel="icon" type="image/x-icon" href="assets/logo.png">
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lora">
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand">
@@ -20,42 +20,42 @@
     <body>
 
         <header>
-            <img src="logo.jpg" alt="Logo" class="logo">
+            <img src="assets/logo.png" alt="Logo" class="logo">
             <h1><a href="#">HR Codes</a></h1>
         </header>
 
         <main>
 
             <h1>
-                HR Codes
+                Where
+                <span style="color: rgba(255, 0, 0)">Clarity</span>
+                <span style="color: rgba(0, 255, 0)">Meets</span>
+                <span style="color: rgba(0, 0, 255)">Efficiency</span>
+                !
             </h1>
 
             <p>
-                <b>Unlock the Power of HR-Codes: Where Clarity Meets Efficiency!</b><br>
-
                 Introducing HR-Codes, the ultimate fusion of human and computer readability. Unlike traditional codes,
                 HR-Codes are designed to be both user-friendly and technologically advanced. With human-readable content,
                 users can instantly discern the data they're scanning, ensuring a seamless experience that's as secure as
-                it is convenient. Say goodbye to ambiguity and embrace a safer, more intuitive way to share information.
-
-                At HR-Codes, we're committed to simplicity with a purpose. Our codes exclusively encode URLs, offering a
-                direct pathway to digital content without the need for complex deciphering. Whether you're connecting clients,
-                sharing vital resources, or elevating marketing efforts, HR-Codes provide a reliable bridge between the
-                physical and digital worlds. Elevate your information-sharing game with HR-Codes today!
+                it is convenient. Say goodbye to ambiguity and embrace a safer, more intuitive way to share 
+                URLs and Contact Information!
             </p>
 
-            <input id="url-input" type="text" placeholder="url" value="HTTPS://NOEL-FRIEDRICH.DE">
+            <a class="linkbutton" href="scan/index.html">Scan an HR-Code</a>
+            <input id="url-input" type="text" placeholder="&lt;YOUR URL&gt;" value="HTTPS://NOEL-FRIEDRICH.DE" style="text-align: center;">
 
             <div id="output-container">
                 <canvas id="output-canvas"></canvas>
             </div>
 
-            <hr>
-            <!-- Buttons for downloading the HR code -->
-            <button id="downloadpng">Download as PNG</button>
-            <button id="downloadjpeg">Download as JPEG</button>
-            <button id="downloadpdf">Download as PDF</button>
+            <div class="download-buttons-container">
+                <button id="downloadpng">Download as PNG</button>
+                <button id="downloadjpeg">Download as JPEG</button>
+                <button id="downloadpdf">Download as PDF</button>
+            </div>
 
+            <script src="js/letters.js"></script>
             <script src="js/generate-code.js"></script>
             <script src="js/main.js"></script>
 
@@ -110,6 +110,8 @@
         <footer>
             Made by the coolest Hackathon Group out there
         </footer>
+
+        <div class="background"></div>
         
     </body>
 

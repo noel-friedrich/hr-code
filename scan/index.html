@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HR Code</title>
+        <link rel="icon" type="image/x-icon" href="../assets/logo.png">
+        <link rel="stylesheet" href="../style.css">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lora">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand">
+    </head>
+
+    <body>
+
+        <header>
+            <img src="../assets/logo.png" alt="Logo" class="logo">
+            <h1><a href="../index.html">HR Codes</a></h1>
+        </header>
+
+        <main>
+
+            <h1>
+                <span style="color: rgba(255, 0, 0)">Scan</span>
+                an
+                <span style="color: rgba(0, 255, 0)">HR</span>
+                <span style="color: rgba(0, 0, 255)">Code</span>
+            </h1>
+
+            <div id="canvas-container"></div>
+
+            <p>
+                To Scan an HR-Code, allow this website to access your camera.
+                When you see an HR-Code, try to capture as much of the screen
+                as possible. When you're close, you should see the camera
+                zooming into it. If the canvas has a green outline, you can
+                click to open the code!
+            </p>
+
+            <a href="../index.html" class="linkbutton">Create an HR-Code</a>
+
+        </main>
+
+        <footer>
+            Made by the coolest Hackathon Group out there
+        </footer>
+
+        <div class="background"></div>
+
+        <script src="../js/letters.js"></script>
+        <script src="scan.js"></script>
+
+        <style>
+            canvas {
+                aspect-ratio: 1 / 1;
+                width: 100%;
+                max-width: min(90vh, 90vw);
+                box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            }
+        </style>
+        
+    </body>
+
+</html>
