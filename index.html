@@ -43,7 +43,11 @@
             </p>
 
             <a class="linkbutton" href="scan/index.html">Scan an HR-Code</a>
-            <input id="url-input" type="text" placeholder="&lt;YOUR URL&gt;" value="HTTPS://NOEL-FRIEDRICH.DE" style="text-align: center;">
+
+            <div class="input-container">
+                <div class="input-type-switch" data-type="url" id="type-switch"></div>
+                <input id="url-input" type="text" placeholder="&lt;YOUR URL&gt;" value="HTTPS://NOEL-FRIEDRICH.DE" style="text-align: center;">
+            </div>
 
             <div id="output-container">
                 <canvas id="output-canvas"></canvas>

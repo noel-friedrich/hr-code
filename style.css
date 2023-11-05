@@ -166,3 +166,35 @@ body {
         padding: 1em;
     }
 }
+
+.input-container {
+    display: grid;
+    grid-template-columns: 2.5em 1fr;
+    gap: .5em;
+}
+
+.input-type-switch {
+    width: 2.5em;
+    height: 2.5em;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.input-type-switch:hover {
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.input-type-switch[data-type="url"] {
+    background-image: url("assets/url-logo.svg");
+}
+
+.input-type-switch[data-type="tel"] {
+    background-image: url("assets/tel-logo.svg");
+}
+
+.input-type-switch[data-type="mail"] {
+    background-image: url("assets/mailto.svg");
+}

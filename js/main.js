@@ -2,10 +2,25 @@ const OUTPUT_CONTAINER = document.getElementById("output-container")
 const OUTPUT_CANVAS = document.getElementById("output-canvas")
 const OUTPUT_CONTEXT = OUTPUT_CANVAS.getContext("2d")
 const URL_INPUT = document.getElementById("url-input")
+const TYPE_SWITCH = document.getElementById("type-switch")
 
 const alignmentDotColor1 = "rgb(255, 0, 0)"
 const alignmentDotColor2 = "rgb(0, 255, 0)"
 const alignmentDotColor3 = "rgb(0, 0, 255)"
+
+const TYPE_MODES = {
+    URL: 0,
+    TEL: 1,
+    MAIL: 2
+}
+
+let typeMode = TYPE_MODES.URL
+
+const DEFAULT_VALUES = {
+    [TYPE_MODES.URL]: "noel-friedrich.de",
+    [TYPE_MODES.TEL]: "+353-123-4567",
+    [TYPE_MODES.MAIL]: "max@example.com"
+}
 
 function drawPixelDataToOutput(data) {
     OUTPUT_CANVAS.style.display = "block"
@@ -62,15 +77,26 @@ function isValidHttpUrl(string) {
 function generateCode() {
     let inputString = URL_INPUT.value
 
-    if (!isValidUrl(inputString) && isValidUrl("HTTPS://" + inputString)) {
-        inputString = "HTTPS://" + inputString
+    if (typeMode == TYPE_MODES.URL) {
+        if (!isValidUrl(inputString) && isValidUrl("HTTPS://" + inputString)) {
+            inputString = "HTTPS://" + inputString
+        }
+    
+        if (isValidHttpUrl(inputString)) {
+            let url = new URL(inputString)
+            let origin = url.origin.toUpperCase()
+            inputString = origin + inputString.slice(origin.length)
+        }    
+    } else if (typeMode == TYPE_MODES.MAIL) {
+        if (!inputString.toUpperCase().startsWith("MAILTO:")) {
+            inputString = "MAILTO:" + inputString
+        }
+    } else if (typeMode == TYPE_MODES.TEL) {
+        if (!inputString.toUpperCase().startsWith("TEL:")) {
+            inputString = "TEL:" + inputString
+        }
     }
 
-    if (isValidHttpUrl(inputString)) {
-        let url = new URL(inputString)
-        let origin = url.origin.toUpperCase()
-        inputString = origin + inputString.slice(origin.length)
-    }    
 
     const pixelData = generateHRPixelData(inputString, {
         fontmode: "5x5",
@@ -80,6 +106,27 @@ function generateCode() {
     drawPixelDataToOutput(pixelData)
 }
 
+TYPE_SWITCH.onclick = () => {
+    typeMode = (typeMode + 1) % Object.values(TYPE_MODES).length
+
+    switch (typeMode) {
+        case TYPE_MODES.URL:
+            TYPE_SWITCH.dataset.type = "url"
+            break
+        case TYPE_MODES.MAIL:
+            TYPE_SWITCH.dataset.type = "mail"
+            break
+        case TYPE_MODES.TEL:
+            TYPE_SWITCH.dataset.type = "tel"
+            break
+    }
+
+    URL_INPUT.value = DEFAULT_VALUES[typeMode]
+
+    generateCode()
+}
+
+URL_INPUT.value = DEFAULT_VALUES[typeMode]
 URL_INPUT.oninput = generateCode
 
 generateCode()
