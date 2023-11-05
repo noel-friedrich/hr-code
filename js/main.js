@@ -22,6 +22,12 @@ const DEFAULT_VALUES = {
     [TYPE_MODES.MAIL]: "max@example.com"
 }
 
+const PLACEHOLDERS = {
+    [TYPE_MODES.URL]: "< your url >",
+    [TYPE_MODES.TEL]: "< your number >",
+    [TYPE_MODES.MAIL]: "< your email >"
+}
+
 function drawPixelDataToOutput(data) {
     OUTPUT_CANVAS.style.display = "block"
     OUTPUT_CANVAS.width = OUTPUT_CANVAS.clientWidth
@@ -122,6 +128,7 @@ TYPE_SWITCH.onclick = () => {
     }
 
     URL_INPUT.value = DEFAULT_VALUES[typeMode]
+    URL_INPUT.placeholder = PLACEHOLDERS[typeMode]
 
     generateCode()
 }
