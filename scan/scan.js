@@ -383,7 +383,7 @@ async function drawCameraImage() {
 async function scanImage() {
     canvas1 = document.createElement("canvas")
     context1 = canvas1.getContext("2d", {willReadFrequently: true})
-    canvas1.style.display = "none"
+    canvas1.style.display = "block" // TODO: replace 
 
     visibleCanvas = document.createElement("canvas")
     visibleContext = visibleCanvas.getContext("2d")
