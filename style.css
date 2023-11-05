@@ -35,7 +35,7 @@ header h1 > a {
 }
 
 main {
-    padding: 1.5em;
+    padding: 3em;
     font-size: 1.2em;
     max-width: 600px;
     margin: 0 auto;
@@ -154,21 +154,15 @@ body {
     margin-top: 1em;
     display: grid;
     gap: 1em;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-}
-
-.download-buttons-container > button:nth-child(1) {
-    border: 5px solid rgba(255, 0, 0, 0.5);
-}
-
-.download-buttons-container > button:nth-child(2) {
-    border: 5px solid rgba(0, 255, 0, 0.5);
-}
-
-.download-buttons-container > button:nth-child(3) {
-    border: 5px solid rgba(0, 0, 255, 0.5);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
 .download-buttons-container > button {
     margin: 0;
+}
+
+@media screen and (max-width: 1000px) {
+    main {
+        padding: 1em;
+    }
 }

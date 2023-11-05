@@ -1,6 +1,9 @@
 let canvas1 = null
 let context1 = null
 
+let visibleCanvas = null
+let visibleContext = null
+
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 let letters = letterData["5x5"].letters
@@ -257,6 +260,9 @@ async function extractText(codeSize) {
         
                                 let error = Math.abs(desiredLuminance - luminance) 
                                 cumulativeLetterError += error
+
+                                if (cumulativeLetterError > bestError)
+                                    break
                             }
                         }
         
@@ -268,7 +274,7 @@ async function extractText(codeSize) {
                 }
             }
 
-            context1.putImageData(
+            visibleContext.putImageData(
                 makePixelDataFromLetter(bestLetter), 
                 Math.round(segmentSize * x),
                 Math.round(segmentSize * y)
@@ -288,6 +294,10 @@ async function extractText(codeSize) {
 }
 
 async function processImage() {
+    visibleCanvas.width = canvas1.width
+    visibleCanvas.height = canvas1.height
+    visibleContext.drawImage(canvas1, 0, 0)
+
     if (!alignRotation()) {
         return false
     }
@@ -317,7 +327,7 @@ async function drawCameraImage() {
 
     pressed = false
 
-    canvas1.onclick = () => {
+    visibleCanvas.onclick = () => {
         pressed = !pressed
     }
 
@@ -350,7 +360,7 @@ async function drawCameraImage() {
             let zoomedIn = await processImage()
 
             if (zoomedIn) {
-                canvas1.style.outline = "4px solid rgb(0, 255, 0)"
+                visibleCanvas.style.outline = "4px solid rgb(0, 255, 0)"
 
                 if (pressed) {
                     let result = await extractText(foundCodeSize)
@@ -360,7 +370,7 @@ async function drawCameraImage() {
                     }
                 }
             } else {
-                canvas1.style.outline = "none"
+                visibleCanvas.style.outline = "none"
             }
         } catch (e) {
             console.error(e)
@@ -372,10 +382,14 @@ async function drawCameraImage() {
 
 async function scanImage() {
     canvas1 = document.createElement("canvas")
+    context1 = canvas1.getContext("2d", {willReadFrequently: true})
+    canvas1.style.display = "none"
+
+    visibleCanvas = document.createElement("canvas")
+    visibleContext = visibleCanvas.getContext("2d")
+
     document.getElementById("canvas-container").appendChild(canvas1)
-    context1 = canvas1.getContext("2d", {
-        willReadFrequently: true
-    })
+    document.getElementById("canvas-container").appendChild(visibleCanvas)
 
     return await drawCameraImage()
 }
